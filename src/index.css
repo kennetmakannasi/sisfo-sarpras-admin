@@ -1,0 +1,27 @@
+@font-face {
+    font-family: Inter;
+    src: url("/assets/fonts/Inter_18pt-Regular.ttf");
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url("/assets/fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: Open-sans;
+    src: url("/assets/fonts/OpenSans-Regular.ttf");
+}
+
+@import "tailwindcss";
+
+@theme{
+    --color-ultralight-blue: #ebf2f7;
+    --color-ultralight-blue-hover: #dee7ec;
+}
+
+body{
+    background-color:#e9eef2 ;
+    font-size: 15px;
+    font-family: Inter;
+}
