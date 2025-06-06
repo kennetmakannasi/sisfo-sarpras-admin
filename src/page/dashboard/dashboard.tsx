@@ -53,7 +53,7 @@ export default function Dashboard() {
             </div>
             <div className="col-span-4 sm:col-span-2 lg:col-span-1">
                 <DashboardContainer>
-                <p className="mb-3">Status Count</p>
+                <p className="mb-2">Total Overdue Borrows</p>
                   <OverdueTable/>
                 </DashboardContainer>    
             </div>

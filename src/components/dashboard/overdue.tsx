@@ -10,6 +10,7 @@ export default function OverdueTable(){
 
     return(
         <div>
+            <h1 className="text-3xl mb-3">{data?.dueStats?.overdueCount || '...'}</h1>
             <table className='w-full rounded-xl'>
                     <thead>
                         <tr className='text-gray-400 shadow-md rounded-xl'>
