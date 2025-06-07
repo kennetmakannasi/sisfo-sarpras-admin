@@ -8,10 +8,6 @@ import TableLoading from "../tableloading"
 export default function RecentData(){
     const[dataView, setDataView] = useState('borrow')
 
-    const {data} = useFetchData("/admin/dashboard/borrowing")
-
-    const borrowData = data?.recentborrows?.slice(0,5) || []
-
     return(
         <div className="h-full">
             <p>Recent Activities</p>
@@ -35,7 +31,7 @@ const RecentBorrowTable = () => {
 
         const {data} = useFetchData("/admin/dashboard/borrowing")
 
-    const borrowData = data?.recentborrows?.slice(0,5) || []
+    const borrowData = data?.recentborrows || []
 
     return(
         <div className="h-full overflow-x-auto ">
@@ -78,7 +74,7 @@ const RecentReturnTable = () => {
 
     const {data} = useFetchData("/admin/dashboard/returning")
 
-    const returnData = data?.recentreturnings?.slice(0,5) || []
+    const returnData = data?.recentreturnings || []
 
 
     return(

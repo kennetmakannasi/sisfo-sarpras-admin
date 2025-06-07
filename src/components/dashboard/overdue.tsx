@@ -1,16 +1,22 @@
 import { useFetchData } from "../../custom-hooks/fetch"
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function OverdueTable(){
 
     const {data} = useFetchData("/admin/dashboard/overdue");
 
-    const overdueData = data.overdueBorrows || [];
+    const overdueData = data?.overdueBorrows|| [];
 
     console.log(data)
 
     return(
         <div>
-            <h1 className="text-3xl mb-3">{data?.dueStats?.overdueCount || '...'}</h1>
+            <div className="flex mb-3 items-center  ">
+                <Icon className="mr-2 text-gray-400" height={30} icon="material-symbols:warning"/>
+                <h1 className="text-3xl">{data?.dueStats?.overdueCount || '...'}</h1>    
+            </div>
+            <p className="mt-4 mb-1">Recent Overdues</p>
+            
             <table className='w-full rounded-xl'>
                     <thead>
                         <tr className='text-gray-400 shadow-md rounded-xl'>
