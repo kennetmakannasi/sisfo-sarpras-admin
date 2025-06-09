@@ -171,7 +171,7 @@ export default function ItemTable() {
       {currentItems.length === 0 ? 
           (<TableLoading  />)
            : (
-            <div className='overflow-x-scroll xl:overflow-x-auto mt-5'>
+            <div className='overflow-x-auto mt-5'>
               <table className='w-full rounded-xl'>
                 <thead>
                   <tr className='text-gray-400 shadow-md rounded-xl'>
@@ -205,7 +205,7 @@ export default function ItemTable() {
                           )).slice(0,3)
                         }
                       </td>
-                      <td>
+                      <td className='p-3'>
                         <Dropdown>
                           <button
                             onClick={() => {setEditParam(item.sku); setEditModal(true)}}

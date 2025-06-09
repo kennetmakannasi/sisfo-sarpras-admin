@@ -18,7 +18,7 @@ export default function Listboxcomp(props){
                     (<Icon className='absolute right-1' icon="tabler:chevron-down"/>):
                     (<Icon className='absolute right-1' icon="tabler:chevron-up"/>)}
                 </ListboxButton>
-                <ListboxOptions transition className="absolute mt-1 w-full bg-white shadow-lg overflow-y-auto rounded-md py-1 z-10 origin-top transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0">
+                <ListboxOptions onClick={triggerOpen} transition className="absolute mt-1 w-full bg-white shadow-lg overflow-y-auto rounded-md py-1 z-10 origin-top transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0">
                     {props.content}
                 </ListboxOptions>
             </div>

@@ -29,7 +29,6 @@ async function onSubmit(data) {
             {
                 loading: 'Logging In...',
                 success: <b>Success!</b>,
-                error: <b>Failed.</b>
             }
         );
 
@@ -39,6 +38,21 @@ async function onSubmit(data) {
         navigate("/");
 
     } catch (error) {
+
+      if (error.response) {
+            const status = error.response.status;
+
+            if (status === 400) {
+                toast.error("Wrong password or username");
+            } else if (status === 500) {
+                toast.error("Something wrong in our server");
+            } else {
+                toast.error("An unexpected error occurred");
+            }
+        } else {
+            toast.error("Network error or unknown error");
+        }
+
         console.error(error);
     }
 }

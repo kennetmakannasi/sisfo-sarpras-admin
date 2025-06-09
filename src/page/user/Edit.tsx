@@ -49,6 +49,16 @@ export default function EditUser({id , trigger}){
 
     }catch(error){
       console.error(error)
+
+      if (error.response) {
+        const status = error.response.status;
+
+        if (status === 500) {
+          toast.error("Username already taken");
+        }
+      } else {
+        toast.error("Network error or unknown error");
+      }
     }
 	};
 

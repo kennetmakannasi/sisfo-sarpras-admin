@@ -30,7 +30,6 @@ export default function Register(){
       {
         loading: 'Signing In...',
         success: <b>Success!</b>,
-        error: <b>Failed.</b>
       }
     );
 
@@ -41,6 +40,18 @@ export default function Register(){
 
     }catch(error){
       console.error(error)
+      if (error.response) {
+            const status = error.response.status;
+           if (status === 422) {
+                toast.error("Username already taken");
+            } else if (status === 500) {
+                toast.error("Something wrong in our server");
+            } else {
+                toast.error("An unexpected error occurred");
+            }
+        } else {
+            toast.error("Network error or unknown error");
+        }
     }
 	};
 

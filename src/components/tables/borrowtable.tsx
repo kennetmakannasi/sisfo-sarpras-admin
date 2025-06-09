@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useFetchData } from '../../custom-hooks/fetch';
@@ -111,6 +111,10 @@ export default function BorrowTable() {
 
     toast.success('Excel file has been exported successfully!')
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [itemsPerPage]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

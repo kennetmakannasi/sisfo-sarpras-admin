@@ -37,7 +37,7 @@ export default function PaginationButton(props){
                             (<Icon className='absolute right-0.5 mt-0.5' icon="tabler:chevron-up"/>):
                             (<Icon className='absolute right-0.5 mt-0.5' icon="tabler:chevron-down"/>)}
                         </ListboxButton>
-                        <ListboxOptions transition className="absolute text-center z-10 w-full bg-white bottom-8 border border-gray-200 rounded-md shadow-lg
+                        <ListboxOptions onClick={triggerOpen} transition className="absolute text-center z-10 w-full bg-white bottom-8 border border-gray-200 rounded-md shadow-lg
                         origin-bottom transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0
                         ">
                             <ListboxOption className="hover:bg-gray-100 py-0.5" value={5}>5</ListboxOption>
