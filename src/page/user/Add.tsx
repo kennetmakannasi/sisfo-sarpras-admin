@@ -38,15 +38,15 @@ export default function AddUser({trigger}){
     }catch(error){
       console.error(error)
 
-          if (error.response) {
-          const status = error.response.status;
+      if (error.response) {
+        const status = error.response.status;
 
-            if (status === 422) {
-                toast.error("Username already taken");
-            }
-        } else {
-            toast.error("Network error or unknown error");
+        if (status === 422) {
+          toast.error("Username already taken");
         }
+      } else {
+        toast.error("Network error or unknown error");
+      }
     }
 	};
 

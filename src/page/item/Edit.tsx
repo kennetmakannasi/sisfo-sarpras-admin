@@ -57,6 +57,15 @@ export default function EditItem({sku , trigger}){
 
     }catch(error){
       console.error(error)
+      if (error.response) {
+        const status = error.response.status;
+
+        if (status === 403) {
+          toast.error("Item already existed");
+        }
+      } else {
+        toast.error("Network error or unknown error");
+      }
     }
 	};
 
