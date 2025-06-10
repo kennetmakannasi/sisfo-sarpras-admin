@@ -40,6 +40,15 @@ export default function EditCategory({id , trigger}){
 
     }catch(error){
       console.error(error)
+      if (error.response) {
+        const status = error.response.status;
+
+        if (status === 403) {
+          toast.error("Category already existed");
+        }
+      } else {
+        toast.error("Network error or unknown error");
+      }
     }
 	};
 
@@ -55,8 +64,8 @@ export default function EditCategory({id , trigger}){
                 <div className="mt-10">
                     <div className="w-full mt-5">
                         <label htmlFor="name" className="font-semibold">Name</label>
-                        <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="name" placeholder="Name" type="text" {...register('name')}/>
-                        {errors.name && <div>Name is required</div>}
+                        <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="name" placeholder="Name" type="text" {...register('name', { minLength: 3 })}/>
+                        {errors.name && <div>Category Name must be at least 3 characters long</div>}
                     </div>
                     <div className="w-full mt-10">
                         <button type="submit" className="w-full h-10 text-center bg-blue-400 hover:bg-blue-500 text-white rounded-lg duration-150">Edit</button>
