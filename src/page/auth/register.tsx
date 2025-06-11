@@ -73,7 +73,7 @@ export default function Register(){
                         <input className="mt-2 bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3 " id="username" placeholder="username" type="text" {...register('username', { required: true })}/>
                         {errors.username && <div className="absolute">Name is required</div>}
                     </div>
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-7">
                       <label htmlFor="password" className="font-semibold">Password</label>
                         <div className="w-full relative">
                           <input className="mt-2 bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="password" placeholder="Enter Your password" type={viewpw === false ? 'password' : 'text'} 

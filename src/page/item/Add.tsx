@@ -71,22 +71,22 @@ export default function AddItem({trigger}){
                   <Icon height={25} width={25} icon="proicons:cancel"/>
                 </button>
                 <div className="mt-10">
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-5 relative">
                         <label htmlFor="name" className="font-semibold">Name</label>
                         <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="name" placeholder="Name" type="text" {...register('name', { required: true })}/>
-                        {errors.name && <div>Name is required</div>}
+                        {errors.name && <div className="absolute">Name is required</div>}
                     </div>
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-7 relative">
                         <label htmlFor="image" className="font-semibold">Image</label>
                         <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3 text-gray-400 py-1.5" id="image" placeholder="Image" type="file" {...register('image', { required: true })}/>
-                        {errors.image && <div>Image is required</div>}
+                        {errors.image && <div className="absolute">Image is required</div>}
                     </div> 
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-7 relative">
                         <label htmlFor="stock" className="font-semibold">Stock</label>
                         <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="stock" placeholder="Stock" type="number" {...register('stock', { required: true })}/>
-                        {errors.stock && <div>Stock is required</div>}
+                        {errors.stock && <div className="absolute">Stock is required</div>}
                     </div> 
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-7 relative">
                         <label htmlFor="category" className="font-semibold">Category</label>
                         <Listbox value={selectedCategory} onChange={setSelectedCategory}>
                           <div className="relative mt-1">

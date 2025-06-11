@@ -11,13 +11,13 @@ export default function RecentData(){
     return(
         <div className="h-full">
             <p>Recent Activities</p>
-            <div className="w-36 my-2">
+            <div className="w-36 mt-2 mb-3">
                 <Listboxcomp value={dataView} onChange={setDataView}
                 buttonText={dataView === 'borrow'? 'Borrowing ':'Returning '}
                 content={
                 <div className="h-full">
-                <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" value={'borrow'}>Borrow</ListboxOption>
-                <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" value={'return'}>Return</ListboxOption>
+                    <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" value={'borrow'}>Borrow</ListboxOption>
+                    <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" value={'return'}>Return</ListboxOption>
                 </div>
             }/>    
             </div>

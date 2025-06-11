@@ -11,7 +11,7 @@ export default function DonutChart(){
 
     if(data.length === 0 ){
         return(
-          <div className='size-full flex justify-center items-center'>
+          <div className='size-full py-20 flex justify-center items-center'>
             <Icon className='animate-spin' height={50} icon='eos-icons:loading'/>  
           </div>
         )

@@ -8,7 +8,7 @@ export default function LineChart() {
 
     if (!data || !data.per_week || data.per_week.length === 0) {
     return(
-      <div className='size-full flex justify-center items-center'>
+      <div className='size-full flex py-20 justify-center items-center'>
         <Icon className='animate-spin' height={50} icon='eos-icons:loading'/>  
       </div>
     )

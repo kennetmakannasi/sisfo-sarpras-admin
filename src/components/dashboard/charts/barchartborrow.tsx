@@ -11,9 +11,9 @@ export default function BarChartBorrow(){
 
   if(data.length === 0){
     return(
-      <div className='w-full mt-5 flex justify-center items-center'>
-              <Icon className='animate-spin' height={50} icon='eos-icons:loading'/>  
-            </div>
+      <div className='size-full py-20 flex justify-center items-center'>
+        <Icon className='animate-spin' height={50} icon='eos-icons:loading'/>  
+      </div>
     )
   }
 

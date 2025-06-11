@@ -59,7 +59,9 @@ export default function Dashboard() {
             </div>
             <div className="col-span-4">
                 <DashboardContainer>
-                   <RecentData/>
+                    <div className="pb-5">
+                        <RecentData/>
+                    </div>
                 </DashboardContainer>
             </div>
         </div>  

@@ -58,10 +58,10 @@ export default function AddCategory({trigger}){
                     <Icon height={25} width={25} icon="proicons:cancel"/>
                   </button>
                 <div className="mt-10">
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-5 relative">
                         <label htmlFor="name" className="font-semibold">Name</label>
-                        <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="name" placeholder="Name" type="text" {...register('name', { minLength: 3 })}/>
-                        {errors.name && <div>Category Name must be at least 3 characters long</div>}
+                        <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="name" placeholder="Name" type="text" {...register('name', { required:true })}/>
+                        {errors.name && <div className=" absolute">Category Name must be at least 3 characters long</div>}
                     </div>
                     <div className="w-full mt-10">
                         <button className="w-full h-10 text-center bg-blue-400 hover:bg-blue-500 text-white rounded-lg duration-150">Add</button>

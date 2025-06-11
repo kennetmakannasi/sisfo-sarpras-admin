@@ -2,6 +2,7 @@ import { useFetchData } from "../../custom-hooks/fetch"
 import { Icon } from "@iconify/react/dist/iconify.js";
 import TableLoading from "../tableloading";
 import { Tab } from "@headlessui/react";
+import { useState, useEffect } from "react";
 
 export default function OverdueTable(){
 
@@ -9,17 +10,20 @@ export default function OverdueTable(){
 
     const overdueData = data?.overdueBorrows|| [];
 
-    console.log(data)
-
     return(
         <div>
             <div className="flex mb-3 items-center  ">
                 <Icon className="mr-2 text-gray-400" height={30} icon="material-symbols:warning"/>
-                <h1 className="text-3xl">{data?.dueStats?.overdueCount || <Icon className="animate-spin" icon='eos-icons:loading'/>}</h1>    
+                <h1 className="text-3xl">{data?.dueStats?.overdueCount === 0 ? 
+                    ("0"):
+                    (data?.dueStats?.overdueCount || <Icon className="animate-spin" icon='eos-icons:loading'/>)}
+                </h1>    
             </div>
             <p className="mt-4 mb-1">Recent Overdues</p>
             {overdueData.length === 0 ? (
-                <TableLoading/>
+                <div className="h-46 w-full flex items-center justify-center">
+                    {data?.dueStats?.overdueCount === 0 ? ('No Overdue Borrowings'):( <Icon height={50} className="animate-spin" icon='eos-icons:loading'/>)}
+                </div>
             ):(
                 <table className='w-full rounded-xl'>
                     <thead>

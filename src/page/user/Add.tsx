@@ -64,12 +64,12 @@ export default function AddUser({trigger}){
                   <Icon height={25} width={25} icon="proicons:cancel"/>
                 </button>
                 <div className="mt-10">
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-5 relative">
                         <label htmlFor="username" className="font-semibold">Username</label>
                         <input className="bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="username" placeholder="username" type="text" {...register('username', { required: true })}/>
-                        {errors.username && <div>Name is required</div>}
+                        {errors.username && <div className="absolute">Name is required</div>}
                     </div>
-                    <div className="w-full mt-5">
+                    <div className="w-full mt-7 relative">
                         <label htmlFor="password" className="font-semibold">Password</label>
                         <div className="w-full relative">
                           <input className="mt-2 bg-ultralight-blue focus:outline-blue-400 w-full h-10 rounded-lg px-3" id="password" placeholder="Enter Your password" type={viewpw === false ? 'password' : 'text'} 
@@ -78,7 +78,7 @@ export default function AddUser({trigger}){
                             <Icon icon={viewpw === false ? 'carbon:view-off-filled' : 'carbon:view-filled'}/>
                           </button>
                         </div>
-                        {errors.password && <div>Password must be at least 8 characters long</div>}
+                        {errors.password && <div className="absolute">Password must be at least 8 characters long</div>}
                     </div> 
                     <div className="w-full mt-10">
                         <button type="submit" className="w-full h-10 text-center bg-blue-400 hover:bg-blue-500 text-white rounded-lg duration-150">Add</button>
