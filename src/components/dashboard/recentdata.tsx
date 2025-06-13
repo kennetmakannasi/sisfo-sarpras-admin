@@ -2,7 +2,7 @@ import { useFetchData } from "../../custom-hooks/fetch"
 import { BorrowStatusView, ReturnStatusView } from "../statusview"
 import { useState } from "react"
 import Listboxcomp from "../Listbox"
-import { ListboxOption, Tab } from "@headlessui/react"
+import { ListboxOption } from "@headlessui/react"
 import TableLoading from "../tableloading"
 
 export default function RecentData(){
@@ -49,7 +49,7 @@ const RecentBorrowTable = () => {
                         </tr>
                     </thead> 
                     <tbody>
-                        {borrowData.map((item) => (
+                        {borrowData.map((item:any) => (
                         <tr className='border-b-2 border-gray-200 font-normal' key={item.id}>
                             <td className='p-3'>{item.id}</td>
                             <td className='p-3'>{item.item.name}</td>
@@ -94,7 +94,7 @@ const RecentReturnTable = () => {
                         </tr>
                     </thead> 
                     <tbody>
-                        {returnData.map((item) => (
+                        {returnData.map((item:any) => (
                         <tr className='border-b-2 border-gray-200 font-normal' key={item.id}>
                         <td className="p-3">{item.id}</td>
                     <td className="p-3">{item.borrow_id}</td>

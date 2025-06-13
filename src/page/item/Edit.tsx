@@ -2,13 +2,25 @@ import ModalLayout from "../../components/layouts/modal";
 import axios from "axios";
 import { useForm } from "react-hook-form"
 import { useNavigate} from "react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFetchData } from "../../custom-hooks/fetch";
 import { Icon } from "@iconify/react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import toast, {Toaster} from "react-hot-toast";
 
-export default function EditItem({sku , trigger}){
+interface CategoryData {
+  id: number;
+  slug: any;
+  name: string;
+}
+
+interface ItemFormData {
+  name: string;
+  stock: number;
+  image: FileList; 
+}
+
+export default function EditItem({sku , trigger}:any){
     const token = localStorage.getItem("auth_token"); 
     const navigate = useNavigate();
     const {
@@ -16,7 +28,7 @@ export default function EditItem({sku , trigger}){
 		handleSubmit,
     setValue,
 		formState: { errors }
-	} = useForm();
+	} = useForm<ItemFormData>();
   
   const [selectedCategory, setSelectedCategory] = useState();
   const [isopen, setIsOpen] = useState(false);
@@ -27,9 +39,9 @@ export default function EditItem({sku , trigger}){
   setValue("name", itemData?.name || 'Loading data...');
   setValue("stock", itemData?.stock || 'Loading data...');
 
-    async function onSubmit(data) {
+    async function onSubmit(data:ItemFormData) {
     try{
-      const payload = {    
+      const payload:Record<string, any> = {    
         image: data.image[0],
       };
       if (data.name != itemData.name) {
@@ -55,7 +67,7 @@ export default function EditItem({sku , trigger}){
     }, 500);
  
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
       if (error.response) {
         const status = error.response.status;
@@ -109,7 +121,7 @@ export default function EditItem({sku , trigger}){
                                   (<Icon className='absolute top-3 right-3' icon="tabler:chevron-up"/>)}
                             </ListboxButton>
                             <ListboxOptions transition className="absolute mt-1 w-full bg-white shadow-lg max-h-40 overflow-y-auto rounded-md py-1 z-10 origin-top transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0">
-                              {data.map((item) => (
+                              {data.map((item:CategoryData) => (
                                 <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" key={item.slug} value={item.slug}>
                                   {item.name}
                                 </ListboxOption>

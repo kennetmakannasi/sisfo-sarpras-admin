@@ -1,13 +1,14 @@
 import ReactApexChart from "react-apexcharts"
 import { useFetchData } from "../../../custom-hooks/fetch"
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { ApexOptions } from "apexcharts";
 
 export default function DonutChart(){
 
     const {data}= useFetchData('/admin/dashboard/categoryItemCount');
 
-    const categoryName = data.map(item => item.name);
-    const categoryCount = data.map(item => item.items_count);
+    const categoryName = data.map((item:any) => item.name);
+    const categoryCount = data.map((item:any) => item.items_count);
 
     if(data.length === 0 ){
         return(
@@ -20,7 +21,7 @@ export default function DonutChart(){
     const series=  categoryCount
     const labels = categoryName
 
-    const options=  {
+    const options:ApexOptions=  {
       labels: labels,
       dataLabels: {
         enabled: false

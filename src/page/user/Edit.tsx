@@ -7,7 +7,12 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import toast,{ Toaster } from "react-hot-toast";
 
-export default function EditUser({id , trigger}){
+interface UserFormData {
+  username: string;
+  password: string;
+}
+
+export default function EditUser({id , trigger}:any){
     const token = localStorage.getItem("auth_token"); 
     const navigate = useNavigate();
     const {
@@ -15,7 +20,7 @@ export default function EditUser({id , trigger}){
       handleSubmit,
       setValue,
       formState: { errors }
-	  } = useForm();
+	  } = useForm<UserFormData>();
 
     const [viewpw, setViewPw] = useState(false);
 
@@ -23,9 +28,9 @@ export default function EditUser({id , trigger}){
     const userData = data.data;
     setValue("username", userData?.username || 'Loading data...');
 
-    async function onSubmit(data) {
+    async function onSubmit(data:UserFormData) {
     try{
-      const payload = {
+      const payload:Record<string, any> = {
         username: data.username,
       };
   
@@ -47,7 +52,7 @@ export default function EditUser({id , trigger}){
     }, 500);
     
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
 
       if (error.response) {

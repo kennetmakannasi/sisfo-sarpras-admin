@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 import BorrowTable from "../../components/tables/borrowtable";
 import BaseCard from "../../components/basecard";
 import { useFetchData } from "../../custom-hooks/fetch";

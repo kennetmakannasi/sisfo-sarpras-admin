@@ -1,6 +1,7 @@
 import ReactApexChart from "react-apexcharts"
 import { useFetchData } from "../../../custom-hooks/fetch"
 import { Icon } from "@iconify/react/dist/iconify.js"
+import { ApexOptions } from "apexcharts";
 
 export default function BarChartBorrow(){
 
@@ -27,7 +28,7 @@ export default function BarChartBorrow(){
     ]
   }]  
 
-  const options =  {
+  const options:ApexOptions =  {
     chart: {
       type: 'bar',
       fontFamily: 'Inter',
@@ -49,11 +50,6 @@ export default function BarChartBorrow(){
         },
       }
     }],
-    yaxis: [{
-      y: 'July',
-      y2: 'September',
-      y3: 'September',
-    }]
     },
     plotOptions: {
       bar: {
@@ -78,6 +74,9 @@ export default function BarChartBorrow(){
       axisTicks: {
         show: true
       }
+    },
+    tooltip: {
+      enabled: false
     }
   }
 

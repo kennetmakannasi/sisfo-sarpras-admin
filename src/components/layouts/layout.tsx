@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, Outlet, Link } from 'react-router';
+import { useLocation , Outlet } from 'react-router';
 import SideBar from "../sidebar";
 
 export default function Layout(){

@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react"
 import UserTable from "../../components/tables/usertable"
-import AddUser from "./Add"
 import BaseCard from "../../components/basecard";
 import { useFetchData } from "../../custom-hooks/fetch";
 

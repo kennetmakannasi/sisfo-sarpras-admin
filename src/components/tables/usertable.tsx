@@ -12,11 +12,13 @@ import * as XLSX from 'xlsx';
 import ModalTransition from '../modaltransition';
 import toast, { Toaster } from 'react-hot-toast';
 import DeleteDialog from '../deletedialog';
+import ExportData from '../export';
 
 interface DataItem {
   id: number;
   username: string;
   last_login_at: string;
+  created_at: string;
 }
 
 export default function UserTable() {
@@ -51,12 +53,12 @@ export default function UserTable() {
     setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'));
   }
 
-  const filteredItems = data.filter((item) =>
+  const filteredItems = data.filter((item:any) =>
     item.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
    const handleExportExcel = () => {
-    const exceldata = data.map(user => ({
+    const exceldata = data.map((user:DataItem) => ({
         'id': user.id,
         'Nama': user.username,
         'Terakhir Login': user?.last_login_at || 'No Info',
@@ -124,9 +126,12 @@ export default function UserTable() {
         <button onClick={toggleSortDir} className='flex h-full col-span-2 sm:col-span-1 w-10 justify-center items-center p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
           {sortDir === 'asc'? <Icon height={20} icon="mingcute:sort-ascending-line"/>:<Icon height={20} icon="mingcute:sort-descending-line"/>}
         </button>
-        <button onClick={handleExportExcel} className='flex h-full col-start-8 lg:col-start-9 justify-center place-self-end items-center w-10 p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
-          <Icon height={24} icon={'material-symbols:download-rounded'}/>
-        </button>
+        <div className='col-start-8 lg:col-start-9 place-self-end'>
+          <ExportData 
+          endpoint={'users'}
+          fileName={'user_data'}
+          />
+        </div>
         <button onClick={()=> setAddModal(true)} className="size-full col-start-9 lg:col-start-10 col-span-2 lg:col-span-1 h-full flex justify-center items-center shadow-md bg-blue-400 hover:bg-blue-500 text-white rounded-lg duration-150">
           <Icon height={22} icon={'material-symbols:add-rounded'}/>  
           <p className='hidden sm:block'>Add</p>
@@ -149,7 +154,7 @@ export default function UserTable() {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((item) => (
+                {currentItems.map((item:DataItem) => (
                   <tr className='border-b-2 border-gray-200 font-normal' key={item.id}>
                     <td className='px-3 py-3'>{item.id}</td>
                     <td className='px-3 py-3'>{item.username.length <= 18 ? item.username : item.username.substring(0,15) + '...'}</td>

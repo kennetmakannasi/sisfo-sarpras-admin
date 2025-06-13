@@ -6,17 +6,22 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function AddUser({trigger}){
+interface UserFormData {
+  username: string;
+  password: string;
+}
+
+export default function AddUser({trigger}:any){
     var token = localStorage.getItem("auth_token"); 
     let navigate = useNavigate();
     const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm();
+	} = useForm<UserFormData>();
   const [viewpw, setViewPw] = useState(false);
 
-    async function onSubmit(data) {
+    async function onSubmit(data:UserFormData) {
     try{
       const res = await axios.post('http://127.0.0.1:8000/api/admin/users',{
         username: data.username,
@@ -35,7 +40,7 @@ export default function AddUser({trigger}){
       navigate(0)  
     }, 500);
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
 
       if (error.response) {

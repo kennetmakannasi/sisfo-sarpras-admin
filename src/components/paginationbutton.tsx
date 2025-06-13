@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react"
 import { useState } from "react"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-export default function PaginationButton(props){
+
+export default function PaginationButton(props:any){
     const [isopen, setIsOpen] = useState(false);
 
     function triggerOpen(){

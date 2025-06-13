@@ -3,7 +3,7 @@ import { BorrowStatusView } from "../../components/statusview"
 import { useFetchData } from "../../custom-hooks/fetch"
 import { Icon } from "@iconify/react"
 
-export default function BorrowDetail({id, trigger}){
+export default function BorrowDetail({id, trigger}:any){
     const{data} = useFetchData(`/admin/borrows/${id}`)
 
     return(

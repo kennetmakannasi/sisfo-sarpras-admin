@@ -2,7 +2,7 @@ import { Listbox, ListboxButton, ListboxOptions } from '@headlessui/react'
 import { useState } from 'react'
 import { Icon } from '@iconify/react/dist/iconify.js';
 
-export default function Listboxcomp(props){
+export default function Listboxcomp(props:any){
     const [isopen, setIsOpen] = useState(false);
 
     function triggerOpen(){

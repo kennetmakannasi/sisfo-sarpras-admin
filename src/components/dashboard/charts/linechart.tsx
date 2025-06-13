@@ -1,6 +1,12 @@
 import Chart from 'react-apexcharts';
 import { useFetchData } from '../../../custom-hooks/fetch';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { ApexOptions } from 'apexcharts';
+
+interface PerWeekData{
+  week: string,
+  total: number
+}
 
 export default function LineChart() {
 
@@ -14,10 +20,10 @@ export default function LineChart() {
     )
   }
 
-    const categories = data.per_week.map(item => item.week);
-    const borrowdata = data.per_week.map(item => item.total);
+  const categories = data.per_week.map((item:PerWeekData) => item.week);
+  const borrowdata = data.per_week.map((item:PerWeekData) => item.total);
 
-  const options = {
+  const options:ApexOptions = {
     chart: {
       type: 'area',
       fontFamily: 'Inter', 
@@ -33,13 +39,10 @@ export default function LineChart() {
       }
     },
     stroke:{
-      curve: false
+      width: 2 
     },
     markers: {
-      show:false
-    },
-    stroke: {
-      width: 2 
+      show: false
     },
     xaxis: {
       labels: {

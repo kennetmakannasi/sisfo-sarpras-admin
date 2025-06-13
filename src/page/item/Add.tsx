@@ -8,7 +8,19 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 import { useState } from "react";
 import toast,{ Toaster } from "react-hot-toast";
 
-export default function AddItem({trigger}){
+interface CategoryData {
+  id: number;
+  slug: any;
+  name: string;
+}
+
+interface ItemFormData {
+  name: string;
+  stock: number;
+  image: FileList; 
+}
+
+export default function AddItem({trigger}:any){
 
     var token = localStorage.getItem("auth_token"); 
     let navigate = useNavigate();
@@ -16,13 +28,13 @@ export default function AddItem({trigger}){
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm();
+	} = useForm<ItemFormData>();
 
     const [selectedCategory, setSelectedCategory] = useState();
     const [isopen, setIsOpen] = useState(false);
     const {data} = useFetchData("/admin/categories");
 
-    async function onSubmit(data) {
+    async function onSubmit(data:ItemFormData) {
     try{
       const res = await axios.post('http://127.0.0.1:8000/api/admin/items',{
         name: data.name,
@@ -43,7 +55,7 @@ export default function AddItem({trigger}){
       navigate(0)  
     }, 500);
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
       if (error.response) {
         const status = error.response.status;
@@ -97,7 +109,7 @@ export default function AddItem({trigger}){
                               (<Icon className='absolute top-3 right-3' icon="tabler:chevron-up"/>)}
                             </ListboxButton>
                             <ListboxOptions transition className="absolute mt-1 w-full bg-white shadow-lg max-h-40 overflow-y-auto rounded-md py-1 z-10 origin-top transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0">
-                              {data.map((item) => (
+                              {data.map((item:CategoryData) => (
                                 <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" key={item.slug} value={item.slug}>
                                   {item.name}
                                 </ListboxOption>

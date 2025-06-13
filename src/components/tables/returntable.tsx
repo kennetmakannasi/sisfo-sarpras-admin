@@ -7,19 +7,26 @@ import PaginationButton from '../paginationbutton';
 import { Icon } from '@iconify/react';
 import TableLoading from '../tableloading';
 import ReturnDetail from '../../page/return/detail';
-import * as XLSX from 'xlsx';
 import ModalTransition from '../modaltransition';
 import Listboxcomp from '../Listbox';
-import { ListboxOption, ListboxOptions } from '@headlessui/react';
+import { ListboxOption } from '@headlessui/react';
 import toast, { Toaster } from 'react-hot-toast';
 import { ReturnStatusView } from '../statusview';
+import ExportData from '../export';
 
-interface DataItem {
+interface ReturnData {
   id: number;
-  item_id: number;
-  user_id: number;
-  quantity: number;
-  status: string;
+  borrow_id: number;
+  returned_quantity: number;
+  handled_by: string | null;
+  borrowing: {
+    item: {
+      name: string;
+    };
+    user: {
+      username: string;
+    };
+  };
 }
 
 export default function ReturnTable() {
@@ -53,61 +60,19 @@ export default function ReturnTable() {
       console.error(error)
     }
   }
-  // const rejectdata = async(id: number)=>{
-  //   try{
-  //     const res = await axios.patch(`http://127.0.0.1:8000/api/admin/returns/${id}/reject`,{}, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     navigate(0);
-  //   }catch(error){
-  //     console.error(error)
-  //   }
-  // }
 
   const toggleSortDir = () => {
     setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'));
   }
 
-  const triggerDetailModal = (id) => {
+  const triggerDetailModal = (id:number) => {
     setDetailParam(id)
     setDetailModal(!detailModal)
   }
-  const filteredItems = data.filter((item) =>
+  const filteredItems = data.filter((item:ReturnData) =>
     item.borrowing.user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
    item.borrowing.item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleExportExcel = () => {
-    const exceldata = data.map(item => ({
-      'id': item.id,
-      'borrow id': item.borrow_id,
-      'item': item.borrowing.item.name,
-      'user': item.borrowing.user.username,
-      'returned quanitity': item.returned_quantity,
-      'status': item.handled_by === null? 'pending':'approved',
-    }));
-    const ws = XLSX.utils.json_to_sheet(exceldata);
-    
-    const wscols = [
-      {wpx: 25},
-      { wpx: 55 }, 
-      { wpx: 200 },
-      { wpx: 200 },
-      { wpx: 50 }, 
-      { wpx: 200 },
-    ];
-    ws['!cols'] = wscols;
-    
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'return Data');
-    
-    XLSX.writeFile(wb, 'data_return.xlsx');
-
-    toast.success('Excel file has been exported successfully!')
-  };
 
   useEffect(() => {
     setCurrentPage(1);
@@ -125,7 +90,7 @@ export default function ReturnTable() {
             content={
       <ReturnDetail id={detailparam} trigger={triggerDetailModal}/>
       }/>
-  <div className='grid grid-cols-10 gap-3 lg:h-10'>
+      <div className='grid grid-cols-10 gap-3 lg:h-10'>
         <div className='col-span-10 sm:col-span-5 lg:col-span-4 relative flex items-center'>
           <Icon color='#9ca3af' height={20} className='absolute ml-2' icon='ic:sharp-search'/>
         <input
@@ -151,9 +116,12 @@ export default function ReturnTable() {
         <button onClick={toggleSortDir} className='flex h-10 col-span-2 sm:col-span-1 w-10 justify-center items-center p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
           {sortDir === 'asc'? <Icon height={20} icon="mingcute:sort-ascending-line"/>:<Icon height={20} icon="mingcute:sort-descending-line"/>}
         </button>
-        <button onClick={handleExportExcel} className='flex h-full col-start-3 sm:col-start-10 justify-center xl:place-self-end items-center w-10 p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
-          <Icon height={24} icon={'material-symbols:download-rounded'}/>
-        </button>
+        <div className='col-start-3 sm:col-start-10 xl:place-self-end'>
+          <ExportData 
+          endpoint={'returns'}
+          fileName={'return_data'}
+          />
+        </div>
       </div>
 
       {currentItems.length === 0 ? (
@@ -173,7 +141,7 @@ export default function ReturnTable() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((item) => (
+              {currentItems.map((item:ReturnData) => (
                 <tr className='border-b-2 border-gray-200 font-normal' key={item.id}>
                   <td className='px-3 py-3'>{item.id}</td>
                   <td className='px-3 py-3'>{item.borrow_id}</td>

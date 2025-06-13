@@ -1,6 +1,6 @@
 import { Dialog , DialogPanel } from "@headlessui/react";
 
-export default function ModalTransition(props){
+export default function ModalTransition(props:any){
     return(
     <Dialog className="fixed inset-0 z-50 flex size-full justify-center items-center bg-black/50" open={props.open} onClose={props.onclose}>
         <DialogPanel

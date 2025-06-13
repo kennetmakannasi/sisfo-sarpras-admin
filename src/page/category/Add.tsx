@@ -5,7 +5,12 @@ import { useNavigate } from "react-router";
 import toast, {Toaster} from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-export default function AddCategory({trigger}){
+interface CategoryFormData {
+  name: string;
+}
+
+
+export default function AddCategory({trigger}:any){
 
     var token = localStorage.getItem("auth_token"); 
     let navigate = useNavigate();
@@ -13,9 +18,9 @@ export default function AddCategory({trigger}){
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm();
+	} = useForm<CategoryFormData>();
 
-    async function onSubmit(data) {
+    async function onSubmit(data:CategoryFormData) {
     try{
       const res = await axios.post('http://127.0.0.1:8000/api/admin/categories',{
         name: data.name
@@ -34,7 +39,7 @@ export default function AddCategory({trigger}){
     }, 500);
 
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
       if (error.response) {
         const status = error.response.status;

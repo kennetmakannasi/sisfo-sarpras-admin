@@ -1,4 +1,4 @@
-const BorrowStatusView = (props) => {
+const BorrowStatusView = (props:any) => {
     return(
         <div className={`w-28 rounded-lg flex items-center py-0.5 text-center ${
            props.status === 'pending'? 'text-yellow-500 bg-yellow-100 ':
@@ -23,7 +23,7 @@ const BorrowStatusView = (props) => {
     )
 }
 
-const ReturnStatusView = (props) => {
+const ReturnStatusView = (props:any) => {
   return (
     <div className={`w-28 rounded-lg flex items-center py-0.5 text-center ${
         props.status === null ? 'text-yellow-500 bg-yellow-100 ':

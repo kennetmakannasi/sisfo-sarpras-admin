@@ -8,18 +8,24 @@ import PaginationButton from '../paginationbutton';
 import Dropdown from '../dropdown';
 import { Icon } from '@iconify/react';
 import TableLoading from '../tableloading';
-import * as XLSX from 'xlsx';
 import ModalTransition from '../modaltransition';
 import Listboxcomp from '../Listbox';
 import { ListboxOption } from '@headlessui/react'
 import toast, { Toaster } from 'react-hot-toast';
 import DeleteDialog from '../deletedialog';
+import ExportData from '../export';
 
-interface DataItem {
+interface CategoryData {
   id: number;
-  sku: string;
+  name: string;
+}
+
+interface ItemData {
+  id: number;
+  sku: any;
   name: string;
   image_url: string;
+  categories: CategoryData[]; 
   stock: number;
 }
 
@@ -63,42 +69,12 @@ export default function ItemTable() {
     setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'));
   }
 
-  const filteredItems = data.filter((item) =>
+  const filteredItems = data.filter((item: ItemData) =>
     item.sku.toLowerCase().includes(searchTerm.toLowerCase())||
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleExportExcel = () => {
-      const exceldata = data.map(item => ({
-          'id': item.id,
-          'sku': item.sku,
-          'name': item.name,
-          'image_url': item?.image_url || 'no image url',
-          'stock': item.stock ,
-          'categories': item?.categories[0]?.name || 'no category',
-          'Dibuat Pada': item.created_at,
-      }));
-      const ws = XLSX.utils.json_to_sheet(exceldata);
-  
-      const wscols = [
-          {wpx: 25},
-          { wpx: 200 }, 
-          { wpx: 200 }, 
-          { wpx: 200 },
-          { wpx: 35 }, 
-          { wpx: 200 }, 
-          { wpx: 200 },
-      ];
-      ws['!cols'] = wscols;
-  
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Items Data');
-  
-      XLSX.writeFile(wb, 'data_item.xlsx');
-      toast.success('Excel file has been exported successfully!')
-  };
-
-    useEffect(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [itemsPerPage]);
 
@@ -146,7 +122,7 @@ export default function ItemTable() {
             content={
               <div className='h-52 overflow-y-auto'>
               <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" value=''>All</ListboxOption>
-              {categorydata.map((category) => (
+              {categorydata.map((category:CategoryData) => (
                 <ListboxOption className="hover:bg-gray-100 duration-150 transition-all px-3 py-1" key={category.name} value={category.name}>
                   {category.name.length <= 15 ? category.name : category.name.substring(0,12  )+'...'}
                 </ListboxOption>
@@ -159,9 +135,12 @@ export default function ItemTable() {
         <button onClick={toggleSortDir} className='flex h-10 col-span-2 sm:col-span-1 w-10 justify-center items-center p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
           {sortDir === 'asc'? <Icon height={20} icon="mingcute:sort-ascending-line"/>:<Icon height={20} icon="mingcute:sort-descending-line"/>}
         </button>
-        <button onClick={handleExportExcel} className='flex h-full col-start-8 lg:col-start-9 justify-center place-self-end items-center w-10 p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
-          <Icon height={24} icon={'material-symbols:download-rounded'}/>
-        </button>
+        <div className='col-start-8 lg:col-start-9 place-self-end'>
+          <ExportData 
+          endpoint={'items'}
+          fileName={'item_data'}
+          />
+        </div>
         <button onClick={()=> setAddModal(true)} className="size-full col-start-9 lg:col-start-10 col-span-2 lg:col-span-1 h-full flex justify-center items-center shadow-md bg-blue-400 hover:bg-blue-500 text-white rounded-lg duration-150">
           <Icon height={22} icon={'material-symbols:add-rounded'}/>  
           <p className='hidden sm:block'>Add</p>  
@@ -185,7 +164,7 @@ export default function ItemTable() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((item) => (
+                  {currentItems.map((item:ItemData) => (
                     <tr className='border-b-2 border-gray-200 font-normal' key={item.id}>
                       <td className='px-3 py-3'>{item.id}</td>
                       <td className='px-3 py-3'>{item.sku.length <= 10 ? item.sku: item.sku.substring(0,7)+ '...'}</td>
@@ -194,11 +173,10 @@ export default function ItemTable() {
                         <img className='size-10 object-cover rounded-lg' src={item?.image_url || 'assets/placeholder.png'} alt="" />
                       </td>
                       <td className='px-3 py-3'>{item.stock}</td>
-                      {/* <td className='px-3 py-3'>{item?.categories[0]?.name || 'No Category'}</td> */}
                       <td className='px-3 py-3 grid grid-cols-3  gap-1 w-60'>
-                        {item?.categories?.map((catdata)=>(catdata)).length <=0 ? 
+                        {item?.categories?.map((catdata:CategoryData)=>(catdata)).length <=0 ? 
                           <p className='col-span-2 mt-2'>No Categories</p> : 
-                          item.categories.map((catdata)=>(
+                          item.categories.map((catdata:CategoryData)=>(
                             <div className=' rounded-lg mt-1.5 w-full py-0.5 text-center bg-blue-300 text-blue-500'>
                               {catdata.name.length <=7? catdata.name : catdata.name.substring(0,4) + '...'}  
                             </div>

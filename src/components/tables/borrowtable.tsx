@@ -7,17 +7,17 @@ import Dropdown from '../dropdown';
 import { Icon } from '@iconify/react';
 import TableLoading from '../tableloading';
 import BorrowDetail from '../../page/borrow/detail';
-import * as XLSX from 'xlsx';
 import ModalTransition from '../modaltransition';
 import Listboxcomp from '../Listbox';
 import { ListboxOption } from '@headlessui/react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BorrowStatusView } from '../statusview';
+import ExportData from '../export';
 
-interface DataItem {
+interface BorrowData {
   id: number;
-  item_id: number;
-  user_id: number;
+  item: { name: string };   
+  user: { username: string }; 
   quantity: number;
   status: string;
 }
@@ -30,14 +30,12 @@ export default function BorrowTable() {
   const [searchTerm, setSearchTerm] = useState(''); 
   const [sortDir, setSortDir] = useState('asc');  
   const [filterstatus, setFilterStatus] = useState('all'); 
-
   const [detailModal, setDetailModal] = useState(false);
   const [detailparam, setDetailParam] = useState(0);
 
 
   const{data} = useFetchData(`/admin/borrows?sort=${sortDir}&status=${filterstatus.toLowerCase()}`)
-  
-  //aprove gini dlu entaran revisi
+
   const approvedata = async(id: number)=>{
     try{
       const res = await axios.patch(`http://127.0.0.1:8000/api/admin/borrows/${id}/approve`,{}, {
@@ -75,42 +73,15 @@ export default function BorrowTable() {
     setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'));
   }
 
-  const filteredItems = data.filter((item) =>
+  const filteredItems = data.filter((item:any) =>
     item.user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const triggerDetailModal = (id) => {
+  const triggerDetailModal = (id:number) => {
     setDetailParam(id)
     setDetailModal(!detailModal)
   }
-
- const handleExportExcel = () => {
-    const exceldata = data.map(item => ({
-      'id': item.id,
-      'item': item.item.name,
-      'user': item.user.username,
-      'quantity': item.quantity,
-      'status': item.status,
-    }));
-    const ws = XLSX.utils.json_to_sheet(exceldata);
-    
-    const wscols = [
-      {wpx: 25},
-      { wpx: 200 }, 
-      { wpx: 200 }, 
-      { wpx: 50 },
-      { wpx: 200 },  
-    ];
-    ws['!cols'] = wscols;
-    
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'borrow Data');
-    
-    XLSX.writeFile(wb, 'data_borrow.xlsx');
-
-    toast.success('Excel file has been exported successfully!')
-  };
 
   useEffect(() => {
     setCurrentPage(1);
@@ -154,9 +125,12 @@ export default function BorrowTable() {
         <button onClick={toggleSortDir} className='flex h-10 col-span-2 sm:col-span-1 w-10 justify-center items-center p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
           {sortDir === 'asc'? <Icon height={20} icon="mingcute:sort-ascending-line"/>:<Icon height={20} icon="mingcute:sort-descending-line"/>}
         </button>
-        <button onClick={handleExportExcel} className='flex h-full col-start-3 sm:col-start-10 justify-center xl:place-self-end items-center w-10 p-1 border-2 border-gray-200 hover:bg-gray-100 duration-150 transition-all shadow-md rounded-lg'>
-          <Icon height={24} icon={'material-symbols:download-rounded'}/>
-        </button>
+         <div className='col-start-3 sm:col-start-10 xl:place-self-end'>
+          <ExportData 
+          endpoint={'borrows'}
+          fileName={'borrows_data'}
+          />
+        </div>
       </div>
 
       {currentItems.length === 0 ? (
@@ -175,7 +149,7 @@ export default function BorrowTable() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((item) => (
+              {currentItems.map((item:BorrowData) => (
                 <tr className='border-b-2 border-gray-200 font-normal' key={item.id}>
                   <td className='px-3 py-3'>{item.id}</td>
                   <td className='px-3 py-3'>{item.item.name.length <= 15 ? item.item.name : item.item.name.substring(0,12)+ '...'}</td>

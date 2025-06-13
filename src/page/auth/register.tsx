@@ -16,7 +16,7 @@ export default function Register(){
 	} = useForm();
   const [viewpw, setViewPw] = useState(false);
 
-    async function onSubmit(data) {
+    async function onSubmit(data:any) {
     try{
       const res = await toast.promise
       (axios.post('http://127.0.0.1:8000/api/auth/register',{
@@ -38,20 +38,20 @@ export default function Register(){
     localStorage.setItem('auth_token', resdata);
     navigate("/")
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
       if (error.response) {
-            const status = error.response.status;
-           if (status === 422) {
-                toast.error("Username already taken");
-            } else if (status === 500) {
-                toast.error("Something wrong in our server");
-            } else {
-                toast.error("An unexpected error occurred");
-            }
-        } else {
-            toast.error("Network error or unknown error");
+          const status = error.response.status;
+          if (status === 422) {
+            toast.error("Username already taken");
+          } else if (status === 500) {
+            toast.error("Something wrong in our server");
+          } else {
+          toast.error("An unexpected error occurred");
         }
+      } else {
+        toast.error("Network error or unknown error");
+      }
     }
 	};
 

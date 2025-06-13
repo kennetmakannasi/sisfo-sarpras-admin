@@ -15,7 +15,7 @@ export default function Login(){
 	} = useForm();
   const [viewpw, setViewPw] = useState(false)
 
-async function onSubmit(data) {
+async function onSubmit(data:any) {
     try {
         const res = await toast.promise(
             axios.post('http://127.0.0.1:8000/api/auth/login', {
@@ -37,9 +37,8 @@ async function onSubmit(data) {
         localStorage.setItem('auth_token', resdata);
         navigate("/");
 
-    } catch (error) {
-
-      if (error.response) {
+    } catch (error:any) {
+        if (error.response) {
             const status = error.response.status;
 
             if (status === 400) {

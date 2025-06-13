@@ -1,7 +1,7 @@
 import ModalLayout from "./layouts/modal"
 import { Icon } from "@iconify/react/dist/iconify.js"
 
-export default function DeleteDialog(props){
+export default function DeleteDialog(props:any){
     return(
         <ModalLayout>
             <div className="flex items-center">

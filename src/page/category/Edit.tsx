@@ -6,7 +6,11 @@ import { Icon } from "@iconify/react";
 import { useFetchData } from "../../custom-hooks/fetch";
 import toast, {Toaster} from "react-hot-toast";
 
-export default function EditCategory({id , trigger}){
+interface CategoryFormData {
+  name: string;
+}
+
+export default function EditCategory({id , trigger}:any){
     const token = localStorage.getItem("auth_token"); 
     const navigate = useNavigate();
     const {
@@ -14,12 +18,12 @@ export default function EditCategory({id , trigger}){
 		handleSubmit,
     setValue,
 		formState: { errors }
-	} = useForm();
+	} = useForm<CategoryFormData>();
 
     const res = useFetchData(`/admin/categories/${id}`)               
     setValue("name", res?.data?.name || 'Loading Data...');
   
-    async function onSubmit(data) {
+    async function onSubmit(data:CategoryFormData) {
 
     try{
       const res = await axios.put(`http://127.0.0.1:8000/api/admin/categories/${id}`,{
@@ -38,7 +42,7 @@ export default function EditCategory({id , trigger}){
       navigate(0)  
     }, 500);
 
-    }catch(error){
+    }catch(error:any){
       console.error(error)
       if (error.response) {
         const status = error.response.status;
